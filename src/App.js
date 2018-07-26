@@ -27,9 +27,23 @@ class Number extends React.PureComponent {
 
 class Game extends Component {
   static bgColors = {
-    playing: '#ccc',
-    won: 'green',
-    lost: 'red',
+    playing: '#0857ce',
+    won: '#0ad864',
+    lost: '#e2540d',
+  };
+
+  static colors = {
+    new: '#21201f',
+    playing: '#ffffff',
+    won: '#ffffff',
+    lost: '#ffffff',
+  };
+
+  static descriptions = {
+    new: 'select 4 number  that have sum equal to target in 10 second',
+    playing: 'select 4 number  that have sum equal to target in 10 second',
+    won: 'You Win, click Play Again button !! ',
+    lost: 'You Lost, click Play Again button !!',
   };
 
   state = {
@@ -109,33 +123,42 @@ class Game extends Component {
   render() {
     const { gameStatus, remainingSeconds } = this.state;
     return (
-      <div className="game">
-        <div
-          className="target"
-          style={{ backgroundColor: Game.bgColors[gameStatus] }}
-        >
-          {gameStatus === 'new' ? '?' : this.target}
+      <div>
+        <div className="title">
+          <h1>Sum Game</h1>
         </div>
-        <div className="challenge-numbers">
-          {this.challengeNumbers.map((value, index) => (
-            <Number
+        <div className="game">        
+          <div className="challenge-numbers">
+            {this.challengeNumbers.map((value, index) => (
+              <Number
               key={index}
               id={index}
               value={gameStatus === 'new' ? '?' : value}
               clickable={this.isNumberAvailable(index)}
               onClick={this.selectNumber}
-            />
-          ))}
+              />
+            ))}
+          </div>
+          <div className="footer">
+            <div
+              className="target"
+              style={{ color: Game.colors[gameStatus], backgroundColor: Game.bgColors[gameStatus] }}
+              >
+              {gameStatus === 'new' ? '?' : this.target}
+            </div>
+            {gameStatus === 'new' ? (
+              <button className="play-button" onClick={this.startGame}>Start</button>
+            ) : (
+              <div className="timer-value">{remainingSeconds}</div>
+            )}
+            {['won', 'lost'].includes(gameStatus) && (
+              <button className="play-button" onClick={this.props.onPlayAgain}>Play Again</button>
+            )}
+          </div>
         </div>
-        <div className="footer">
-          {gameStatus === 'new' ? (
-            <button onClick={this.startGame}>Start</button>
-          ) : (
-            <div className="timer-value">{remainingSeconds}</div>
-          )}
-          {['won', 'lost'].includes(gameStatus) && (
-            <button onClick={this.props.onPlayAgain}>Play Again</button>
-          )}
+
+        <div className="title">
+          <strong> {Game.descriptions[gameStatus] } </strong>
         </div>
       </div>
     );
@@ -146,12 +169,12 @@ class App extends React.Component {
   state = {
     gameId: 1,
   };
-
+  
   resetGame = () =>
-    this.setState((prevState) => ({
-      gameId: prevState.gameId + 1,
-    }));
-
+  this.setState((prevState) => ({
+    gameId: prevState.gameId + 1,
+  }));
+  
   render() {
     return (
       <Game
