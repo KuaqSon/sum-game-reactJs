@@ -40,8 +40,8 @@ class Game extends Component {
   };
 
   static descriptions = {
-    new: 'select 4 number  that have sum equal to target in 10 second',
-    playing: 'select 4 number  that have sum equal to target in 10 second',
+    new: 'select number that have sum equal to target in 10 second',
+    playing: 'select number that have sum equal to target in 10 second',
     won: 'You Win, click Play Again button !! ',
     lost: 'You Lost, click Play Again button !!',
   };
